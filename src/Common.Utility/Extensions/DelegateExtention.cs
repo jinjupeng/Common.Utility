@@ -1,12 +1,11 @@
-﻿using Common.Utility.Helper;
-using System;
+﻿using System;
 
 namespace Common.Utility.Extensions
 {
     /// <summary>
     /// 拓展方法静态类
     /// </summary>
-    public static partial class DelegateExtension
+    public static partial class DelegateExtention
     {
         /// <summary>
         /// 异步，按顺序执行第一个方法和第二个方法

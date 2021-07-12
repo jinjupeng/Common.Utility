@@ -7,7 +7,7 @@ namespace Common.Utility.Extensions
     /// <summary>
     /// 拓展类
     /// </summary>
-    public static partial class ByteExtension
+    public static partial class ByteExtention
     {
         /// <summary>
         /// byte[]转string

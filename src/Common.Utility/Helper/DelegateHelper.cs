@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Utility.Helper
+namespace Common.Utility.Extensions
 {
     /// <summary>
     /// 委托帮助类
@@ -41,6 +39,5 @@ namespace Common.Utility.Helper
             firstTask.Start();
             firstTask.ContinueWith(x => next(x.Result));
         }
-
     }
 }
