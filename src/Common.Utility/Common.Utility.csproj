@@ -2,16 +2,35 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>My.Common.Utility</PackageId>
+    <Authors>jupengjin</Authors>
+    <Product>My.Common.Utility</Product>
+    <Description>适用于.NET Standard 2.1的通用类库</Description>
+    <PackageProjectUrl>https://github.com/jinjupeng/Common.Utility</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jinjupeng/Common.Utility</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Common Library</PackageTags>
+    <Version>1.0.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsPackable>true</IsPackable>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="LinqKit" Version="1.1.24" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.17" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.17" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="Quartz" Version="3.3.2" />
     <PackageReference Include="SharpZipLib" Version="1.3.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.10" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
