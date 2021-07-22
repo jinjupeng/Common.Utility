@@ -21,6 +21,17 @@ namespace Common.Utility.Extensions
     public static partial class StringExtention
     {
         /// <summary>
+        /// if判断语句
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public static string If(this string str, bool condition)
+        {
+            return condition ? str : string.Empty;
+        }
+
+        /// <summary>
         /// 判断字符串是否为Null、空
         /// </summary>
         /// <param name="s"></param>
