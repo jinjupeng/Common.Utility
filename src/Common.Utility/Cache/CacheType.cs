@@ -1,4 +1,4 @@
-﻿namespace Common.Utility.Models
+﻿namespace Common.Utility.Cache
 {
     /// <summary>
     /// 缓存类型

@@ -435,6 +435,47 @@ namespace Common.Utility.Extensions
         }
 
         /// <summary>
+        /// 字节数组转换为16进制字符串
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="lowerCase">是否小写</param>
+        /// <returns></returns>
+        public static string ToHexString(this byte[] bytes, bool lowerCase = true)
+        {
+            if (bytes == null)
+                return null;
+
+            var result = new StringBuilder();
+            var format = lowerCase ? "x2" : "X2";
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                result.Append(bytes[i].ToString(format));
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 16进制转字节数组
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static byte[] ToHexBytes(this string s)
+        {
+            if (s.IsNull())
+                return null;
+            var bytes = new byte[s.Length / 2];
+
+            for (int x = 0; x < s.Length / 2; x++)
+            {
+                int i = (Convert.ToInt32(s.Substring(x * 2, 2), 16));
+                bytes[x] = (byte)i;
+            }
+
+            return bytes;
+        }
+
+        /// <summary>
         /// 将16进制字符串转为Byte数组
         /// </summary>
         /// <param name="str">16进制字符串(2个16进制字符表示一个Byte)</param>

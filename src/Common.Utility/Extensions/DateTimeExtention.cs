@@ -49,12 +49,25 @@ namespace Common.Utility.Extensions
         /// 获取Js格式的timestamp
         /// </summary>
         /// <param name="dateTime">日期</param>
-        /// <returns></returns>
+        /// <returns>单位：毫秒</returns>
         public static long ToJsTimestamp(this DateTime dateTime)
         {
             var startTime = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
             long result = (dateTime.Ticks - startTime.Ticks) / 10000;   //除10000调整为13位
             return result;
+        }
+
+        /// <summary>
+        /// js时间戳转日期格式
+        /// </summary>
+        /// <param name="jsTimeStamp">单位：毫秒</param>
+        /// <returns></returns>
+        public static DateTime ToJsDateTime(this long jsTimeStamp)
+        {
+            DateTime dtStart = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), TimeZoneInfo.Local);
+            long lTime = jsTimeStamp * 10000;
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dtStart.Add(toNow);
         }
 
         /// <summary>
@@ -64,10 +77,9 @@ namespace Common.Utility.Extensions
         /// <returns></returns>
         public static Int64 JsGetTime(this DateTime dt)
         {
-            Int64 retval = 0;
             var st = new DateTime(1970, 1, 1);
-            TimeSpan t = (dt.ToUniversalTime() - st);
-            retval = (Int64)(t.TotalMilliseconds + 0.5);
+            TimeSpan t = dt.ToUniversalTime() - st;
+            long retval = (long)(t.TotalMilliseconds + 0.5);
             return retval;
         }
 
@@ -95,11 +107,24 @@ namespace Common.Utility.Extensions
         /// 转为转换为Unix时间戳格式(精确到秒)
         /// </summary>
         /// <param name="time">时间</param>
-        /// <returns></returns>
+        /// <returns>单位：秒</returns>
         public static int ToUnixTimeStamp(this DateTime time)
         {
             DateTime startTime = new DateTime(1970, 1, 1).ToLocalTime();
             return (int)(time - startTime).TotalSeconds;
+        }
+
+        /// <summary>
+        /// unix时间戳转日期格式
+        /// </summary>
+        /// <param name="unixTimeStamp">单位：秒</param>
+        /// <returns></returns>
+        public static DateTime ToUnixDateTime(this long unixTimeStamp)
+        {
+            DateTime dtStart = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), TimeZoneInfo.Local);
+            long lTime = unixTimeStamp * 10000000;
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dtStart.Add(toNow);
         }
     }
 }
