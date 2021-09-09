@@ -36,12 +36,27 @@ namespace Common.Utility.Helper
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="parameterName"></param>
+        [Obsolete("在下一个版本中将会移除，推荐使用public static void NotEmpty<T>(IList<T> list, string parameterName)方法")]
         public static void Collection<T>(IList<T> list, string parameterName)
         {
-            NotNull(list, parameterName);
+            NotNull(list, parameterName, "collection not be null");
 
             if (!list.Any())
-                throw new ArgumentException("集合不包含任何内容", parameterName);
+                throw new ArgumentException("collection not be empty.", parameterName);
+        }
+
+        /// <summary>
+        /// 检测集合是否不为空且包含内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="parameterName"></param>
+        public static void NotEmpty<T>(IList<T> list, string parameterName)
+        {
+            NotNull(list, parameterName, "collection not be null");
+
+            if (!list.Any())
+                throw new ArgumentException("collection not be empty.", parameterName);
         }
     }
 }
