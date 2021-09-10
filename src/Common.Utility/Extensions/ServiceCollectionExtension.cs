@@ -1,8 +1,5 @@
-﻿using Common.Utility.AOP;
-using Common.Utility.Attributes;
+﻿using Common.Utility.Attributes;
 using Common.Utility.Helper;
-using Common.Utility.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -124,19 +121,6 @@ namespace Common.Utility.Extensions
             {
                 services.AddServicesFromAssembly(assembly);
             }
-            return services;
-        }
-
-        /// <summary>
-        /// 添加数据库事务，在使用注解[Transaction]之前，必须添加该服务到容器中
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddTransaction(this IServiceCollection services)
-        {
-            //https://www.cnblogs.com/sheng-jie/p/7416302.html
-            //services.AddScoped<IUnitOfWork, UnitOfWork<ContextMySql>>();
-            services.AddScoped(typeof(TransactionInterceptor));
             return services;
         }
     }

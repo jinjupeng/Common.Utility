@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/jinjupeng/Common.Utility</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Common Library</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>2.0.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>true</IsPackable>
@@ -18,12 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
-    <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="LinqKit" Version="1.1.24" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.17" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.17" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.18" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

@@ -37,7 +37,7 @@ namespace Common.Utility.Encrypt
 
             using (var md5Hash = MD5.Create())
             {
-                return md5Hash.ComputeHash(source).ToHex(lowerCase);
+                return md5Hash.ComputeHash(source).ToHexString(lowerCase);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Common.Utility.Encrypt
 
             using (var md5Hash = MD5.Create())
             {
-                return md5Hash.ComputeHash(inputStream).ToHex(lowerCase);
+                return md5Hash.ComputeHash(inputStream).ToHexString(lowerCase);
             }
         }
     }

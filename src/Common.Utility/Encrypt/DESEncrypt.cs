@@ -95,7 +95,7 @@ namespace Common.Utility.Encrypt
                 cStream.FlushFinalBlock();
 
                 var bytes = stream.ToArray();
-                return hex ? bytes.ToHex(lowerCase) : bytes.ToBase64();
+                return hex ? bytes.ToHexString(lowerCase) : Convert.ToBase64String(bytes);
             }
         }
 
@@ -116,7 +116,7 @@ namespace Common.Utility.Encrypt
                 throw new ArgumentException("秘钥长度为8位", nameof(key));
 
             var keyBytes = Encoding.UTF8.GetBytes(key.Substring(0, 8));
-            var inputByteArray = hex ? decryptString.HexToBytes() : Convert.FromBase64String(decryptString);
+            var inputByteArray = hex ? decryptString.ToHexBytes() : Convert.FromBase64String(decryptString);
             var provider = new DESCryptoServiceProvider
             {
                 Mode = CipherMode.ECB,

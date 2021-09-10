@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Common.Utility.Helper
 {
-    public class ObjHelper
+    public class CheckHelper
     {
         /// <summary>
         /// 检测对象是否为空
@@ -28,21 +28,6 @@ namespace Common.Utility.Helper
         {
             if (string.IsNullOrWhiteSpace(obj))
                 throw new ArgumentNullException(parameterName, message ?? $"{parameterName} is null");
-        }
-
-        /// <summary>
-        /// 检测集合是否不为空且包含内容
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="parameterName"></param>
-        [Obsolete("在下一个版本中将会移除，推荐使用public static void NotEmpty<T>(IList<T> list, string parameterName)方法")]
-        public static void Collection<T>(IList<T> list, string parameterName)
-        {
-            NotNull(list, parameterName, "collection not be null");
-
-            if (!list.Any())
-                throw new ArgumentException("collection not be empty.", parameterName);
         }
 
         /// <summary>
