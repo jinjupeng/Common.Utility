@@ -284,7 +284,7 @@ namespace Common.Utility.ClassLibrary
 
         long m_MemSize = 0;
 
-        private int entityLength=0;
+        private int entityLength = 0;
         public ShareMenmory(string strName, long lngSize)
         {
             if (OpenExists(strName, lngSize) == false)
@@ -412,7 +412,7 @@ namespace Common.Utility.ClassLibrary
         {
             Marshal.Copy(bytData, 0, m_pwData + offset, bytData.Length);
         }
-        
+
         /// <summary>
         /// 获取URL
         /// </summary>
@@ -420,7 +420,7 @@ namespace Common.Utility.ClassLibrary
         /// <returns></returns>
         public string GetUrl(int index)
         {
-            int offset = 1 + index * (entityLength + 1)+8;
+            int offset = 1 + index * (entityLength + 1) + 8;
             return ByteExtention.ToString(Read(200, offset)).Trim();
         }
 
@@ -442,7 +442,7 @@ namespace Common.Utility.ClassLibrary
         /// <returns></returns>
         public string GetState(int index)
         {
-            int offset = 1 + index * (entityLength + 1) + entityLength-2;
+            int offset = 1 + index * (entityLength + 1) + entityLength - 2;
             return ByteExtention.ToString(Read(1, offset));
         }
 
@@ -451,10 +451,10 @@ namespace Common.Utility.ClassLibrary
         /// </summary>
         /// <param name="index">索引序号</param>
         /// <param name="state">状态（0为未爬取，1为已经爬取）</param>
-        public void SetState(int index,int state)
+        public void SetState(int index, int state)
         {
             int offset = 1 + index * (entityLength + 1) + entityLength - 2;
-            Write(state.ToString().ToBytes(),offset);
+            Write(state.ToString().ToBytes(), offset);
         }
 
         /// <summary>
@@ -462,9 +462,9 @@ namespace Common.Utility.ClassLibrary
         /// </summary>
         /// <param name="index">索引序号</param>
         /// <param name="t">实体类型</param>
-        public void SetEntity(int index,T t)
+        public void SetEntity(int index, T t)
         {
-            int offset = index*entityLength;
+            int offset = index * entityLength;
             Write(t.EntityToJson().ToBytes(), offset);
         }
 

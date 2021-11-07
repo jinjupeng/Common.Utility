@@ -5,7 +5,7 @@
     /// </summary>
     public struct FileEntry
     {
-        public FileEntry(string fileName,byte[] fileBytes)
+        public FileEntry(string fileName, byte[] fileBytes)
         {
             FileName = fileName;
             FileBytes = fileBytes;

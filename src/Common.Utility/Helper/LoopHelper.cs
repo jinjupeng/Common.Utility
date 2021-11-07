@@ -12,7 +12,7 @@ namespace Common.Utility.Extensions
         /// </summary>
         /// <param name="count">循环次数</param>
         /// <param name="method">执行的方法</param>
-        public static void Loop(int count,Action method)
+        public static void Loop(int count, Action method)
         {
             for (int i = 0; i < count; i++)
             {

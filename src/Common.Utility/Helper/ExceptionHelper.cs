@@ -60,17 +60,17 @@ namespace Common.Utility.Extensions
         public static string GetExceptionAllMsg(Exception ex)
         {
             string msg = GetExceptionAllMsg(ex, 1);
-//            try
-//            {
-//                msg += $@"
-////url:{HttpContextCore.Current.Request.GetDisplayUrl()}
-////body:{HttpContextCore.Current.Request.Body.ReadToString()}
-//";
-//            }
-//            catch
-//            {
+            //            try
+            //            {
+            //                msg += $@"
+            ////url:{HttpContextCore.Current.Request.GetDisplayUrl()}
+            ////body:{HttpContextCore.Current.Request.Body.ReadToString()}
+            //";
+            //            }
+            //            catch
+            //            {
 
-//            }
+            //            }
             return msg;
         }
     }

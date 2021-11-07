@@ -1,32 +1,36 @@
 ﻿using Common.Utility.Extensions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Utility.JWT
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class JwtConfig
+    [ExcludeFromCodeCoverage]
+    public class JwtOptions
     {
         /// <summary>
         /// 证书颁发者
         /// </summary>
-        public string Iss { get; set; } = "ApiServer";
+        public string Issuer { get; set; }
 
         /// <summary>
         /// 接收jwt的一方
         /// </summary>
-        public string Aud { get; set; }
+        public string Audience { get; set; }
 
         /// <summary>
-        /// 加密字符串
+        /// 安全密钥
         /// </summary>
         public string SecretKey { get; set; }
 
         /// <summary>
-        /// jwt的过期时间（时间戳），这个过期时间必须要大于签发时间
+        /// 过期时间（单位分钟）：默认十分钟
         /// </summary>
-        public long Exp { get; set; } = DateTime.Now.AddMinutes(60).ToTimestamp();
+        public string ExpireMinutes { get; set; } = "10";
+
+        /// <summary>
+        /// 过期时间（单位分钟）：默认十分钟，必须要大于签发时间
+        /// </summary>
+        public long Exp { get; set; } = DateTime.Now.AddMinutes(10).ToTimestamp();
 
         /// <summary>
         /// jwt所面向的用户

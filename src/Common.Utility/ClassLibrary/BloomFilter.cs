@@ -20,7 +20,7 @@ namespace Common.Utility.ClassLibrary
         /// </summary>
         /// <param name="bitSize">布隆过滤器的大小(m)默认为10E消耗100M内存</param>
         /// <param name="setSize">集合的大小 (n)默认为1000W</param>
-        public BloomFilter(int bitSize=1000000000, int setSize=10000000)
+        public BloomFilter(int bitSize = 1000000000, int setSize = 10000000)
         {
             _bitSize = bitSize;
             _bitArray = new BitArray(bitSize);
@@ -157,7 +157,7 @@ namespace Common.Utility.ClassLibrary
         /// <param name="bloomName"></param>
         /// <param name="bitSize">布隆过滤器的大小(m)默认为10E消耗100M内存</param>
         /// <param name="setSize">集合的大小 (n)默认为1000W</param>
-        public BloomFilterWithShareMemory(string bloomName,int bitSize = 1000000000, int setSize = 10000000)
+        public BloomFilterWithShareMemory(string bloomName, int bitSize = 1000000000, int setSize = 10000000)
         {
             sm = new ShareMenmory(bloomName, 1000000000);
             _bitSize = bitSize;
@@ -211,9 +211,9 @@ namespace Common.Utility.ClassLibrary
             for (int i = 0; i < _numberOfHashes; i++)
             {
                 int index = _random.Next(_bitSize);
-                int j=0;
-                int offSet=0;
-                if((index+1) % 8==0)
+                int j = 0;
+                int offSet = 0;
+                if ((index + 1) % 8 == 0)
                 {
                     j = (index + 1) / 8 - 1;
                 }
@@ -237,7 +237,7 @@ namespace Common.Utility.ClassLibrary
                 byte[] setData = new byte[1];
                 setData[0] = (byte)tmp;
 
-                sm.Write(setData,j);
+                sm.Write(setData, j);
             }
         }
         public bool Contains(T item)

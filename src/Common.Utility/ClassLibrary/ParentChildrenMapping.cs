@@ -25,11 +25,11 @@ namespace Common.Utility.ClassLibrary
         /// </summary>
         /// <param name="parentId">所属父键</param>
         /// <param name="childId">子键</param>
-        public void AddChild(string parentId,string childId)
+        public void AddChild(string parentId, string childId)
         {
             if (string.IsNullOrEmpty(parentId))
                 throw new Exception("父键不能为Null或空");
-            if(string.IsNullOrEmpty(childId))
+            if (string.IsNullOrEmpty(childId))
                 throw new Exception("子键不能为Null或空");
 
             if (_cToP.ContainsKey(childId))
@@ -68,7 +68,7 @@ namespace Common.Utility.ClassLibrary
             var children = _pToC[parentId];
             if (children == null)
                 throw new Exception("该父键不存在该子键");
-            if(!children.TryTake(out childId))
+            if (!children.TryTake(out childId))
                 throw new Exception("该父键不存在该子键");
             _cToP.TryRemove(childId, out string value);
         }
@@ -137,7 +137,7 @@ namespace Common.Utility.ClassLibrary
 
             return _pToC[parentId]?.ToList() ?? new List<string>();
         }
-        
+
         /// <summary>
         /// 获取所有父键
         /// </summary>

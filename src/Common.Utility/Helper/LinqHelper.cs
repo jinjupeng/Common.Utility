@@ -13,7 +13,7 @@ namespace Common.Utility.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Expression<Func<T,bool>> True<T>()
+        public static Expression<Func<T, bool>> True<T>()
         {
             return x => true;
         }

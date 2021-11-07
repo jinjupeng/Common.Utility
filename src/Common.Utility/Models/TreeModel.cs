@@ -35,6 +35,6 @@ namespace Common.Utility.Models
         /// <summary>
         /// 孩子节点
         /// </summary>
-        public List<object> Children { get; set; } 
+        public List<object> Children { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Common.Utility.Cache
+namespace Common.Utility.Cache.Enum
 {
     /// <summary>
     /// 缓存键
