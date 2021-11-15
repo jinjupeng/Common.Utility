@@ -27,5 +27,20 @@ namespace Test.JWT
             var value = jwtHelper.IssueJwt(null);
             Assert.True(!string.IsNullOrWhiteSpace(value));
         }
+
+        [Fact]
+        public void ValidateTest()
+        {
+            var token = jwtHelper.IssueJwt(null);
+            var validateResult = jwtHelper.Validate(token);
+            Assert.True(validateResult);
+        }
+        [Fact]
+        public void RefreshTokenTest()
+        {
+            var token = jwtHelper.IssueJwt(null);
+            var refreshToken = jwtHelper.RefreshToken(token);
+            Assert.True(!string.IsNullOrWhiteSpace(refreshToken));
+        }
     }
 }
