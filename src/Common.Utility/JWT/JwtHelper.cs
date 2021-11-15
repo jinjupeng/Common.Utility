@@ -152,7 +152,7 @@ namespace Common.Utility.JWT
                 return false;
             }
             var jwtArr = encodeJwt.Split('.');
-            var payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(Base64UrlEncoder.Decode(jwtArr[1]));
+            var payLoad = GetPayLoad(encodeJwt);
             var hs256 = new HMACSHA256(Encoding.ASCII.GetBytes(_jwtOptions.Value.SecretKey));
             var encodedSignature = Base64UrlEncoder.Encode(hs256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(jwtArr[0], ".", jwtArr[1]))));
 
@@ -165,7 +165,7 @@ namespace Common.Utility.JWT
 
             //其次验证是否在有效期内（也应该必须）
             var now = ToUnixEpochDate(DateTime.UtcNow);
-            success = now <= long.Parse(payLoad["exp"].ToString()) && now >= long.Parse(payLoad["nbf"].ToString());
+            success = now <= Convert.ToInt64(payLoad["exp"]) && now >= Convert.ToInt64(payLoad["nbf"]);
             return success;
         }
 
