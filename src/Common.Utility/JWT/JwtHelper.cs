@@ -56,8 +56,8 @@ namespace Common.Utility.JWT
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var jwtSecurityToken = new JwtSecurityToken(
-                issuer: _jwtOptions.Value.Issuer,
-                audience: _jwtOptions.Value.Audience,
+                //issuer: _jwtOptions.Value.Issuer,
+                //audience: _jwtOptions.Value.Audience,
                 claims: claims,
                 // expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials);
@@ -65,16 +65,20 @@ namespace Common.Utility.JWT
             return token;
         }
 
-        ///// <summary>
-        ///// 获取jwt中的payLoad
-        ///// </summary>
-        ///// <param name="encodeJwt">格式：eyAAA.eyBBB.CCC</param>
-        ///// <returns></returns>
-        //public static Dictionary<string, string> GetPayLoad(string encodeJwt)
-        //{
-        //    var claimArr = Decode(encodeJwt);
-        //    return claimArr.ToDictionary(x => x.Type, x => x.Value);
-        //}
+        /// <summary>
+        /// 获取jwt中的payLoad
+        /// </summary>
+        /// <param name="encodeJwt">格式：eyAAA.eyBBB.CCC</param>
+        /// <returns></returns>
+        public Dictionary<string, string> GetPayLoad(string encodeJwt)
+        {
+            if (!IsToken(encodeJwt))
+            {
+                return null;
+            }
+            var claimArr = Decode(encodeJwt);
+            return claimArr.ToDictionary(x => x.Type, x => x.Value);
+        }
 
         /// <summary>
         /// token解码
@@ -83,6 +87,10 @@ namespace Common.Utility.JWT
         /// <returns></returns>
         public Claim[] Decode(string encodeJwt)
         {
+            if (!IsToken(encodeJwt))
+            {
+                return null;
+            }
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = jwtSecurityTokenHandler.ReadJwtToken(encodeJwt);
             return jwtSecurityToken?.Claims?.ToArray();
@@ -91,14 +99,22 @@ namespace Common.Utility.JWT
         /// <summary>
         /// 刷新token值
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="oldToken">格式：eyAAA.eyBBB.CCC</param>
         /// <returns></returns>
-        public string RefreshToken(string token)
+        public string RefreshToken(string oldToken)
         {
-            string tokenStr = token;
-            var oldToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            var oldClaims = oldToken.Claims;
-            if (long.Parse(GetPayLoad(token)["exp"].ToString()) - ToUnixEpochDate(DateTime.UtcNow) <= 500)
+            if (!IsToken(oldToken))
+            {
+                throw new ArgumentException("Token格式不正确！");
+            }
+            if (!Validate(oldToken))
+            {
+                throw new Exception("Token已过期！");
+            }
+            var newToken = "";
+            var oldClaims = Decode(oldToken);
+            var payLoad = GetPayLoad(oldToken);
+            if (ToUnixEpochDate(DateTime.UtcNow) < Convert.ToInt64(payLoad["exp"]))
             {
                 // 这里就是声明我们的claim
                 var claims = new List<Claim>(); // 从旧token中获取到Claim
@@ -111,15 +127,15 @@ namespace Common.Utility.JWT
                 var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var jwtSecurityToken = new JwtSecurityToken
                 (
-                    issuer: _jwtOptions.Value.Issuer,
-                    audience: _jwtOptions.Value.Audience,
+                    //issuer: _jwtOptions.Value.Issuer,
+                    //audience: _jwtOptions.Value.Audience,
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtOptions.Value.ExpireMinutes)),
+                    // expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtOptions.Value.ExpireMinutes)),
                     signingCredentials: cred
                 );
-                tokenStr = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                newToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             }
-            return tokenStr;
+            return newToken;
         }
 
         /// <summary>
@@ -131,13 +147,17 @@ namespace Common.Utility.JWT
         /// <returns></returns>
         public bool Validate(string encodeJwt)
         {
+            if (!IsToken(encodeJwt))
+            {
+                return false;
+            }
             var jwtArr = encodeJwt.Split('.');
-            var payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(Base64UrlEncoder.Decode(jwtArr[1]));
+            var payLoad = GetPayLoad(encodeJwt);
             var hs256 = new HMACSHA256(Encoding.ASCII.GetBytes(_jwtOptions.Value.SecretKey));
             var encodedSignature = Base64UrlEncoder.Encode(hs256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(jwtArr[0], ".", jwtArr[1]))));
 
             //首先验证签名是否正确（必须的)
-            bool success = string.Equals(jwtArr[2], encodedSignature);
+            var success = string.Equals(jwtArr[2], encodedSignature);
             if (!success)
             {
                 return false;
@@ -145,21 +165,32 @@ namespace Common.Utility.JWT
 
             //其次验证是否在有效期内（也应该必须）
             var now = ToUnixEpochDate(DateTime.UtcNow);
-            success = now <= long.Parse(payLoad["exp"].ToString()) && now >= long.Parse(payLoad["nbf"].ToString());
+            success = now <= Convert.ToInt64(payLoad["exp"]) && now >= Convert.ToInt64(payLoad["nbf"]);
             return success;
         }
 
         /// <summary>
-        /// 获取jwt中的payload
+        /// 判断token格式是否正确
         /// </summary>
-        /// <param name="encodeJwt">格式：Bearer eyAAA.eyBBB.CCC</param>
+        /// <param name="encodeJwt"></param>
         /// <returns></returns>
-        public Dictionary<string, object> GetPayLoad(string encodeJwt)
+        public bool IsToken(string encodeJwt)
         {
-            var jwtArr = encodeJwt.Split('.');
-            var payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(Base64UrlEncoder.Decode(jwtArr[1]));
-            return payLoad;
+            var isValidToken = new JwtSecurityTokenHandler().CanReadToken(encodeJwt);
+            return isValidToken;
         }
+
+        ///// <summary>
+        ///// 获取jwt中的payload
+        ///// </summary>
+        ///// <param name="encodeJwt">格式：Bearer eyAAA.eyBBB.CCC</param>
+        ///// <returns></returns>
+        //public Dictionary<string, object> GetPayLoad(string encodeJwt)
+        //{
+        //    var jwtArr = encodeJwt.Split('.');
+        //    var payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(Base64UrlEncoder.Decode(jwtArr[1]));
+        //    return payLoad;
+        //}
 
         /// <summary>
         /// datetime转时间戳
